@@ -1,14 +1,25 @@
 
 function Game() {
-	this.x = 37;
-	this.y = 37;
 	this.cellX = 17;			// 横向单位
 	this.cellY = 35;			// 纵向单位
-	this.originX = this.x;		
-	this.originY = this.y;
-	this.direction = 'right';
-	this.containerW = 400;
-	this.containerH = 300;
+	this.containerW = 408;
+	this.containerH = 304;
+	this.hero = {
+		x: 37,
+		y: 37,
+		originX: 37,
+		originY: 37,
+		direction: '',
+		timer: null
+	};
+	this.monster = {
+		x: 83,
+		y: 116,
+		originX: 37,
+		originY: 37,
+		direction: '',
+		timer: null
+	};
 }
 Game.prototype = {
 	constructor: Game,
@@ -26,9 +37,9 @@ Game.prototype = {
 	    roundedRect(ctx, 19, 19, this.containerW - 14, this.containerH - 14, 9);
 
 	    // 描点
-	    for(var i = 0; i < (this.containerW - this.originX) / this.cellX; i++) {
+	    for(var i = 0; i < (this.containerW - this.hero.originX) / this.cellX; i++) {
 	    	for (var j = 1; j < this.containerH / this.cellY; j++) {
-	      		ctx.fillRect(this.originX - 2 + i * this.cellX, this.cellY * j, 4, 4);
+	      		ctx.fillRect(this.hero.originX - 2 + i * this.cellX, this.cellY * j, 4, 4);
 	    	}
 	    }
 
@@ -39,8 +50,8 @@ Game.prototype = {
 	    roundedRect(ctx, 135, 119, 25, 49, 10, true);
 
 	    ctx.save();
-	    ctx.translate(this.x, this.y);
-	    paintHero(ctx, 0, 0, this.direction);				// 玩家
+	    ctx.translate(this.hero.x, this.hero.y);
+	    paintHero(ctx, 0, 0, this.hero.direction);				// 玩家
 	    ctx.restore();
 
 	    // 小怪物 == 未完成随机
@@ -49,27 +60,53 @@ Game.prototype = {
 	},
 	bind: function() {
 		var self = this;
+		function step (direction) {
+			var tik = 0;
+			self.hero.direction = direction;
+			self.hero.timer && clearInterval(self.hero.timer);
+			self.hero.timer = setInterval(function() {
+				if (direction == 'left') {
+					tik += 2;
+					self.hero.x -= self.cellX / 5;
+
+				} else if (direction == 'top') {
+					tik += 1;
+					self.hero.y -= self.cellY / 10;
+
+				} else if (direction == 'right') {
+					tik += 2;
+					if (self.hero.x < self.containerW) self.hero.x += self.cellX / 5;
+					else clearInterval(self.hero.timer);
+
+				} else if (direction == 'bottom') {
+					tik += 1;
+					if (self.hero.y < self.containerH) self.hero.y += self.cellY / 10;
+					else clearInterval(self.hero.timer);
+				}
+
+				self.render();
+				if (tik >= 10) clearInterval(self.hero.timer);
+			}, 100);
+		}
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
 				case 37: 		// 左
-					self.x -= self.cellX;
-					self.direction = 'left';
+					step('left');
 					break;
 				case 38: 		// 上
-					self.y -= self.cellY;
-					self.direction = 'top';
+					step('top');
 					break;
 				case 39: 		// 右
-					self.x += self.cellX;
-					self.direction = 'right';
+					step('right');
 					break;
 				case 40:
-					self.y += self.cellY;
-					self.direction = 'bottom';
+					step('bottom');
 					break;
-				default: ;
+				default: self.hero.timer && clearInterval(self.hero.timer);
 			}
-			self.render();
+		}
+		document.onkeyup = function() {
+			// self.hero.timer && clearInterval(self.hero.timer);
 		}
 	}
 };

@@ -1,5 +1,6 @@
 ## 经典游戏Pac-man
 [效果预览](http://zenaro.github.io/game/)
+
 有名的贝塞尔曲线：
 ![贝塞尔曲线](http://7xstax.com1.z0.glb.clouddn.com/Canvas_bezier.png)
 使用三次贝塞尔曲线来绘制pacman中的小怪兽
