@@ -248,7 +248,7 @@ var Game = {
 				monsY + cell === heroY) && monsX === heroX)
 		) {
 
-			this.gameOver();
+			this.gameOver('啊被吃掉了!~');
 		}
 	},
 
@@ -262,7 +262,7 @@ var Game = {
 	 * @con: 弹窗内容
 	 */
 	modalDown: function(con) {
-		var content = typeof con === 'string' ? con : '弹窗信息';
+		var content = typeof con === 'string' ? con : '游戏结束了';
 		document.getElementById('modal-content').innerHTML = content;
 		document.getElementById('dialog').style.display = 'block';
 	},
