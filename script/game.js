@@ -73,7 +73,6 @@ var Game = {
 		this.drawMonster(25, 25, 'right');
 
 		// 开启小怪兽跑步定时器
-
 		this.monsterTimer = setInterval(() => {
 			this.monsterRun();
 		}, 800);
@@ -86,7 +85,7 @@ var Game = {
 		// 画随机禁区
 		for (var i = start; i < xLength; i += cell) {
 			for (var j = start; j < yLength; j += cell) {
-				if (Math.random() > 0.8 && // 随机产生矩形，但不能与人物位置冲突
+				if (Math.random() > 0.65 && // 随机产生矩形，但不能与人物位置冲突
 					(i !== this.heroInfo.x && j !== this.heroInfo.y) &&
 					(i !== this.monsterInfo.x && j !== this.monsterInfo.y)) {
 
@@ -240,8 +239,8 @@ var Game = {
 		}
 	},
 
-	gameOver: function() {
-		this.modalDown('啊被吃掉了');
+	gameOver: function(context) {
+		this.modalDown(context);
 		this.monsterTimer && clearInterval(this.monsterTimer);
 		this.timer && clearInterval(this.timer);
 	},
@@ -331,7 +330,7 @@ var Game = {
 			this.fruits[x][y] = false;
 			this.count--;
 			if (this.count <= 0) {
-				document.write('胜利!');
+				this.gameOver('胜利！')
 				this.timer && clearInterval(this.timer);
 				this.init();
 			}
