@@ -6,6 +6,8 @@ var Game = {
 	height: 0, // 容器高度
 	origin: 10, // 除去外边框, 地图从点(10, 10) 开始
 	count: 0, // 果实总数
+	score: 0, // 当前分数
+	overall: 0, // 通关门槛分数
 	fruits: [], // 果实2维数组，0表示该地点无果实，全部被主人公吃光时游戏胜利
 	forbiddenArea: [], // 禁区 - 2维数组
 	timer: null, // 定时器
@@ -24,6 +26,7 @@ var Game = {
 	// 初始化参数
 	init: function() {
 		this.count = 0;
+		this.score = 0;
 		this.width = this.cell * 23 + 2 * this.origin;
 		this.height = this.cell * 7 + 2 * this.origin;
 		this.canvas = document.getElementById('myCanvas');
@@ -96,6 +99,16 @@ var Game = {
 				}
 			}
 		}
+
+		// 设置通关门槛
+		this.overall = ~~(this.count * 0.2);
+		document.getElementById('overall').innerHTML = this.overall;
+	},
+
+	// 设置得分
+	setScore: function(score) {
+		this.score = score;
+		document.getElementById('score').innerHTML = score;
 	},
 
 	// 键盘事件绑定
@@ -329,10 +342,10 @@ var Game = {
 		} else if (this.fruits[x][y] === true) {
 			this.fruits[x][y] = false;
 			this.count--;
-			if (this.count <= 0) {
+			this.score += 1;
+			document.getElementById('score').innerHTML = this.score;
+			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall)) {
 				this.gameOver('胜利！')
-				this.timer && clearInterval(this.timer);
-				this.init();
 			}
 		}
 	},
