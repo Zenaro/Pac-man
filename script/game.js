@@ -344,7 +344,7 @@ var Game = {
 			this.count--;
 			this.score += 1;
 			document.getElementById('score').innerHTML = this.score;
-			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall)) {
+			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall - 1)) {
 				this.gameOver('胜利！')
 			}
 		}
