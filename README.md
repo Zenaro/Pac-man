@@ -1,6 +1,9 @@
 ## 经典游戏Pac-man
-[效果预览](http://zenaro.github.io/game/)
+![pacman](http://7xstax.com1.z0.glb.clouddn.com/pacman.jpg)
+在w3c官网上学习canvas的时候看到如何绘制pacman里面的怪兽，想着既然画出来了就顺便做出来玩一玩吧（神带入）
+代码放上了github，想玩的可以戳这里[在线测试->](http://zenaro.github.io/pacman/index.html)
 
+可能用到的知识点：
 有名的贝塞尔曲线：
 ![贝塞尔曲线](http://7xstax.com1.z0.glb.clouddn.com/Canvas_bezier.png)
 使用三次贝塞尔曲线来绘制pacman中的小怪兽

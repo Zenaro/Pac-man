@@ -337,7 +337,7 @@ var Game = {
 	heroEat: function(x, y) {
 		// 吃掉本位置的果实
 		if (this.monsterInfo.x === x && this.monsterInfo.y === y) {
-			this.gameOver();
+			this.gameOver('啊被吃掉了!~');
 
 		} else if (this.fruits[x][y] === true) {
 			this.fruits[x][y] = false;
