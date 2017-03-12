@@ -1,5 +1,6 @@
 ## 经典游戏Pac-man
 ![pacman](http://7xstax.com1.z0.glb.clouddn.com/pacman.jpg)
+
 在w3c官网上学习canvas的时候看到如何绘制pacman里面的怪兽，想着既然画出来了就顺便做出来玩一玩吧（神带入）
 代码放上了github，想玩的可以戳这里[在线测试->](http://zenaro.github.io/pacman/index.html)
 
