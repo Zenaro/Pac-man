@@ -15,7 +15,8 @@ var Game = {
 	heroInfo: { // 主人公位置，方向等相关信息
 		x: 0,
 		y: 0,
-		dir: 'stop' // left, top, right, bottom, stop
+		dir: 'stop', // left, top, right, bottom, stop
+		finish: true
 	},
 	monsterInfo: { // 怪兽位置方向等信息
 		x: 0,
@@ -130,9 +131,9 @@ var Game = {
 				default:
 					dir = self.heroInfo.dir;
 			}
-			if (self.heroInfo.dir !== dir) {
-				self.oneStep(dir);
-			}
+			// if (self.heroInfo.dir !== dir) {
+			self.oneStep(dir);
+			// }
 		}
 		document.body.onkeyup = function() {
 			// setTimeout(function() {
@@ -237,10 +238,7 @@ var Game = {
 			} else {
 				dir = 'bottom';
 			}
-			// 有较小的概率改变方向
-			// if (Math.random() > 0.6) {
 			this.monsterInfo.dir = dir;
-			// }
 		}
 
 		this.monsterEat(this.monsterInfo.dir);
@@ -250,30 +248,6 @@ var Game = {
 
 		} else {
 			this.monsterMotion(this.monsterInfo.dir);
-			// ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-			/*if (this.fruits[x][y] === true) {
-				this.drawDot(x, y);
-			}
-			switch (this.monsterInfo.dir) {
-				case 'left':
-					this.drawMonster(x - this.cell, y, this.monsterInfo.dir);
-					this.monsterInfo.x = x - this.cell;
-					break;
-				case 'right':
-					this.drawMonster(x + this.cell, y, this.monsterInfo.dir);
-					this.monsterInfo.x = x + this.cell;
-					break;
-				case 'top':
-					this.drawMonster(x, y - this.cell, this.monsterInfo.dir);
-					this.monsterInfo.y = y - this.cell;
-					break;
-				case 'bottom':
-					this.drawMonster(x, y + this.cell, this.monsterInfo.dir);
-					this.monsterInfo.y = y + this.cell;
-					break;
-				default:
-					console.log('stop');
-			}*/
 		}
 	},
 
@@ -396,9 +370,10 @@ var Game = {
 			ctx = this.canvasCtx;
 		if (this.overstep(x, y, dir) === true) { // 已越界
 			this.timer && clearInterval(this.timer);
+			this.heroInfo.finish = true;
 			return;
 		}
-
+		this.heroInfo.finish = false;
 		if (dir === 'left') {
 			setTimeout(() => {
 				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
@@ -408,6 +383,7 @@ var Game = {
 					this.drawHero(x - this.cell, y, 'left');
 					this.heroInfo.x = x - this.cell;
 					this.heroInfo.dir = 'left';
+					this.heroInfo.finish = true;
 				}, 100);
 			}, 100);
 
@@ -420,6 +396,7 @@ var Game = {
 					this.drawHero(x + this.cell, y, 'right');
 					this.heroInfo.x = x + this.cell;
 					this.heroInfo.dir = 'right';
+					this.heroInfo.finish = true;
 				}, 100);
 			}, 100);
 
@@ -432,6 +409,7 @@ var Game = {
 					this.drawHero(x, y - this.cell, 'top');
 					this.heroInfo.y = y - this.cell;
 					this.heroInfo.dir = 'top';
+					this.heroInfo.finish = true;
 				}, 100);
 			}, 100);
 
@@ -444,6 +422,7 @@ var Game = {
 					this.drawHero(x, y + this.cell, 'bottom');
 					this.heroInfo.y = y + this.cell;
 					this.heroInfo.dir = 'bottom';
+					this.heroInfo.finish = true;
 				}, 100);
 			}, 100);
 		}
@@ -479,9 +458,11 @@ var Game = {
 
 			// 先执行一步，以消解延时
 			this.timer && clearInterval(this.timer);
+			// this.heroMotion(dir);
 			this.timer = setInterval(() => {
-				this.heroMotion(dir);
-			}, 350);
+				this.heroInfo.finish && this.heroMotion(dir);
+			}, 50);
+
 
 		} else { // 越界则只修改方向
 			this.timer && clearInterval(this.timer);
