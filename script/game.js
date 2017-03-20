@@ -19,7 +19,7 @@ var Game = {
 		dir: 'stop', // left, top, right, bottom, stop
 		finish: true
 	},
-	monsterInfo: { // 怪兽位置方向等信息
+	monsterInfo: { // 怪兽位置，方向，发现猎物等信息
 		x: 0,
 		y: 0,
 		dir: 'stop',
