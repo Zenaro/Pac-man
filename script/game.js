@@ -428,14 +428,12 @@ var Game = {
 		// if (!this.heroInfo.finish) return;
 
 		if (this.overstep(fromX, fromY, dir) === false || !this.heroInfo.finish) { // 未越界或动作未完成
-
 			// 先执行一步，以消解延时
 			this.timer && clearInterval(this.timer);
 			// this.heroMotion(dir);
 			this.timer = setInterval(() => {
 				this.heroInfo.finish && this.heroMotion(dir);
 			}, 60);
-
 
 		} else { // 越界则只修改方向
 			this.timer && clearInterval(this.timer);
